@@ -13,9 +13,7 @@
                         noticeType  :   $.cookie(prefix + '__typecho_notice_type'),
                         highlight   :   $.cookie(prefix + '__typecho_notice_highlight')
                     },
-                    path = '<?php echo \Typecho\Cookie::getPath(); ?>',
-                    domain = '<?php echo \Typecho\Cookie::getDomain(); ?>',
-                    secure = <?php echo json_encode(\Typecho\Cookie::getSecure()); ?>;
+                    path = '<?php echo \Typecho\Cookie::getPath(); ?>';
 
                 if (!!cookies.notice && 'success|notice|error'.indexOf(cookies.noticeType) >= 0) {
                     var head = $('.typecho-head-nav'),
@@ -65,13 +63,14 @@
                         });
                     });
 
-                    $.cookie(prefix + '__typecho_notice', null, {path : path, domain: domain, secure: secure});
-                    $.cookie(prefix + '__typecho_notice_type', null, {path : path, domain: domain, secure: secure});
+                    
+                    $.cookie(prefix + '__typecho_notice', null, {path : path});
+                    $.cookie(prefix + '__typecho_notice_type', null, {path : path});
                 }
 
                 if (cookies.highlight) {
                     $('#' + cookies.highlight).effect('highlight', 1000);
-                    $.cookie(prefix + '__typecho_notice_highlight', null, {path : path, domain: domain, secure: secure});
+                    $.cookie(prefix + '__typecho_notice_highlight', null, {path : path});
                 }
             })();
 
@@ -92,7 +91,6 @@
 
             $('#typecho-nav-list ul.root').each(function () {
                 const ul = $(this), nav = ul.parent();
-                let focused = false;
 
                 ul.on('click touchend', '.parent a', function (e) {
                     nav.removeClass('noexpanded').addClass('expanded');
@@ -104,19 +102,6 @@
                     nav.removeClass('expanded').addClass('noexpanded');
                     return false;
                 }));
-
-                $('a', ul).focus(function () {
-                    ul.addClass('expanded');
-                    focused = true;
-                }).blur(function () {
-                    focused = false;
-
-                    setTimeout(function () {
-                        if (!focused) {
-                            ul.removeClass('expanded');
-                        }
-                    });
-                });
             });
 
             if ($('.typecho-login').length == 0) {
